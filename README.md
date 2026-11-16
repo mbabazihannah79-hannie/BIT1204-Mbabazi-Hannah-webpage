@@ -2,11 +2,10 @@
 
 This repository contains:
 
-| Folder / file | What it is |
+| Folder | What it is |
 |---|---|
-| `BIT-1204 Mbabazi Hannah.Webpage/` | My personal HTML/CSS webpage |
-| `index.html`, `web PRACTICE.HTML` | Practice pages |
-| `wordpress-theme/elroi-kadosh/` | **WordPress website for El Roi Khadoshi Motel, Kyenjojo** |
+| `wordpress-theme/elroi-kadosh/` | **WordPress theme for El Roi Khadoshi Motel, Kyenjojo** (Elementor-ready) |
+| `logo/` | Motel logo files (PNG and SVG, green & gold) |
 
 ## El Roi Khadoshi Motel – WordPress website
 
