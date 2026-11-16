@@ -125,3 +125,56 @@
 		calc();
 	}
 })();
+
+/* ERK Photo Slider */
+(function () {
+	'use strict';
+	function initSlider(el) {
+		if (!el || el.dataset.ready) { return; }
+		el.dataset.ready = '1';
+		var track = el.querySelector('.erk-slider__track');
+		var slides = el.querySelectorAll('.erk-slide');
+		var dots = el.querySelectorAll('.erk-slider__dot');
+		var fade = el.classList.contains('erk-slider--fade');
+		var n = slides.length, i = 0, timer = null;
+		var auto = el.dataset.autoplay === '1', speed = parseInt(el.dataset.speed, 10) || 4000;
+		if (n < 2) { return; }
+		function go(k) {
+			i = (k + n) % n;
+			if (!fade) { track.style.transform = 'translateX(' + (-100 * i) + '%)'; }
+			slides.forEach(function (s, x) { s.classList.toggle('is-active', x === i); });
+			dots.forEach(function (d, x) { d.classList.toggle('is-active', x === i); });
+		}
+		function play() { stop(); if (auto) { timer = setInterval(function () { go(i + 1); }, speed); } }
+		function stop() { if (timer) { clearInterval(timer); timer = null; } }
+		var prev = el.querySelector('.erk-slider__prev'), next = el.querySelector('.erk-slider__next');
+		if (prev) { prev.addEventListener('click', function () { go(i - 1); play(); }); }
+		if (next) { next.addEventListener('click', function () { go(i + 1); play(); }); }
+		dots.forEach(function (d, x) { d.addEventListener('click', function () { go(x); play(); }); });
+		el.addEventListener('mouseenter', stop);
+		el.addEventListener('mouseleave', play);
+		el.addEventListener('keydown', function (e) {
+			if (e.key === 'ArrowLeft') { go(i - 1); play(); }
+			if (e.key === 'ArrowRight') { go(i + 1); play(); }
+		});
+		var startX = null;
+		el.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; stop(); }, { passive: true });
+		el.addEventListener('touchend', function (e) {
+			if (startX === null) { return; }
+			var dx = e.changedTouches[0].clientX - startX;
+			if (Math.abs(dx) > 40) { go(dx < 0 ? i + 1 : i - 1); }
+			startX = null; play();
+		});
+		go(0); play();
+	}
+	window.erkInitSliders = function (root) { (root || document).querySelectorAll('.erk-slider').forEach(initSlider); };
+	if (document.readyState !== 'loading') { window.erkInitSliders(); } else { document.addEventListener('DOMContentLoaded', function () { window.erkInitSliders(); }); }
+	// Live preview inside the Elementor editor.
+	if (window.jQuery) {
+		window.jQuery(window).on('elementor/frontend/init', function () {
+			if (window.elementorFrontend && window.elementorFrontend.hooks) {
+				window.elementorFrontend.hooks.addAction('frontend/element_ready/erk-slider.default', function ($scope) { window.erkInitSliders($scope[0]); });
+			}
+		});
+	}
+})();

@@ -299,10 +299,76 @@ class ERK_Hours_Widget extends ERK_Widget {
 	}
 }
 
+class ERK_Slider_Widget extends ERK_Widget {
+	protected $erk_title = 'Photo Slider';
+	protected $erk_icon  = 'eicon-slider-push';
+	public function get_name() { return 'erk-slider'; }
+	protected function register_controls() {
+		$this->erk_note = 'A sliding photo gallery. Choose <strong>My own photos</strong> to pick photos from the Media Library and write a caption for each slide.';
+		$this->erk_start( 'Slides' );
+		$this->add_control( 'source', array(
+			'label' => 'Photos', 'type' => Controls_Manager::SELECT, 'default' => 'custom',
+			'options' => array( 'custom' => 'My own photos (choose below)', 'gallery' => 'All website photos (automatic)', 'rooms' => 'Room photos with prices (automatic)' ),
+		) );
+		$this->add_control( 'limit', array( 'label' => 'How many slides (0 = all)', 'type' => Controls_Manager::NUMBER, 'default' => 8, 'min' => 0, 'condition' => array( 'source!' => 'custom' ) ) );
+		$r = new Repeater();
+		$r->add_control( 'image', array( 'label' => 'Photo', 'type' => Controls_Manager::MEDIA, 'default' => array( 'url' => elroi_img( 'hero', 1800 ) ) ) );
+		$r->add_control( 'title', array( 'label' => 'Caption title', 'type' => Controls_Manager::TEXT, 'default' => 'Welcome to El Roi Khadoshi Motel', 'label_block' => true ) );
+		$r->add_control( 'text', array( 'label' => 'Caption text', 'type' => Controls_Manager::TEXTAREA, 'default' => '', 'rows' => 2 ) );
+		$r->add_control( 'btn', array( 'label' => 'Button text (optional)', 'type' => Controls_Manager::TEXT, 'default' => '' ) );
+		$r->add_control( 'link', array( 'label' => 'Button link', 'type' => Controls_Manager::URL, 'default' => array( 'url' => '' ) ) );
+		$this->add_control( 'slides', array(
+			'label' => 'Slides', 'type' => Controls_Manager::REPEATER, 'fields' => $r->get_controls(), 'title_field' => '{{{ title || "Slide" }}}',
+			'condition' => array( 'source' => 'custom' ),
+			'default' => array(
+				array( 'image' => array( 'url' => elroi_img( 'hero', 1800 ) ), 'title' => 'Welcome to El Roi Khadoshi Motel', 'text' => 'Rest well in the heart of Kyenjojo', 'btn' => 'Book a Room', 'link' => array( 'url' => elroi_page_url( 'booking' ) ) ),
+				array( 'image' => array( 'url' => elroi_img( 'room-deluxe', 1800 ) ), 'title' => 'Comfortable rooms', 'text' => 'Private bathroom, balcony and free Wi-Fi in every room', 'btn' => '', 'link' => array( 'url' => '' ) ),
+				array( 'image' => array( 'url' => elroi_img( 'restaurant', 1800 ) ), 'title' => 'Restaurant & Bar', 'text' => 'Local and continental meals every day', 'btn' => '', 'link' => array( 'url' => '' ) ),
+			),
+		) );
+		$this->end_controls_section();
+
+		$this->start_controls_section( 'erk_slider_settings', array( 'label' => 'Slider Settings' ) );
+		$this->add_control( 'height', array( 'label' => 'Height (px)', 'type' => Controls_Manager::SLIDER, 'size_units' => array( 'px' ), 'range' => array( 'px' => array( 'min' => 250, 'max' => 900, 'step' => 10 ) ), 'default' => array( 'unit' => 'px', 'size' => 560 ) ) );
+		$this->add_control( 'effect', array( 'label' => 'Effect', 'type' => Controls_Manager::SELECT, 'default' => 'slide', 'options' => array( 'slide' => 'Slide', 'fade' => 'Fade' ) ) );
+		$this->add_control( 'autoplay', array( 'label' => 'Slide automatically', 'type' => Controls_Manager::SWITCHER, 'default' => 'yes' ) );
+		$this->add_control( 'speed', array( 'label' => 'Time per slide (milliseconds)', 'type' => Controls_Manager::NUMBER, 'default' => 4000, 'min' => 1500, 'step' => 500, 'condition' => array( 'autoplay' => 'yes' ) ) );
+		$this->add_control( 'arrows', array( 'label' => 'Show arrows', 'type' => Controls_Manager::SWITCHER, 'default' => 'yes' ) );
+		$this->add_control( 'dots', array( 'label' => 'Show dots', 'type' => Controls_Manager::SWITCHER, 'default' => 'yes' ) );
+		$this->add_control( 'captions', array( 'label' => 'Show captions', 'type' => Controls_Manager::SWITCHER, 'default' => 'yes' ) );
+		$this->add_control( 'overlay', array( 'label' => 'Photo darkness (for readable captions)', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 0, 'max' => 0.8, 'step' => 0.05 ) ), 'default' => array( 'size' => 0.35 ) ) );
+		$this->end_controls_section();
+	}
+	protected function render() {
+		$s = $this->get_settings_for_display();
+		if ( 'custom' === $s['source'] ) {
+			$slides = array();
+			foreach ( (array) $s['slides'] as $sl ) {
+				$img = '';
+				if ( ! empty( $sl['image']['id'] ) ) { $img = wp_get_attachment_image_url( $sl['image']['id'], 'full' ); }
+				if ( ! $img && ! empty( $sl['image']['url'] ) ) { $img = $sl['image']['url']; }
+				$slides[] = array( 'image' => $img ? $img : 'placeholder', 'title' => $sl['title'], 'text' => $sl['text'], 'btn' => $sl['btn'], 'url' => isset( $sl['link']['url'] ) ? $sl['link']['url'] : '' );
+			}
+		} else {
+			$slides = elroi_slider_slides( $s['source'], (int) $s['limit'] );
+		}
+		elroi_render_slider( $slides, array(
+			'height'   => isset( $s['height']['size'] ) ? $s['height']['size'] : 560,
+			'effect'   => $s['effect'],
+			'autoplay' => 'yes' === $s['autoplay'],
+			'speed'    => $s['speed'],
+			'arrows'   => 'yes' === $s['arrows'],
+			'dots'     => 'yes' === $s['dots'],
+			'captions' => 'yes' === $s['captions'],
+			'overlay'  => isset( $s['overlay']['size'] ) ? $s['overlay']['size'] : 0.35,
+		) );
+	}
+}
+
 function elroi_widget_classes() {
 	return array(
 		'ERK_Rooms_Widget', 'ERK_Room_Details_Widget', 'ERK_Quick_Book_Widget', 'ERK_Booking_Widget', 'ERK_Amenities_Widget',
 		'ERK_Places_Widget', 'ERK_Menu_Widget', 'ERK_Gallery_Widget', 'ERK_FAQ_Widget', 'ERK_Map_Widget',
-		'ERK_Contact_Info_Widget', 'ERK_Contact_Form_Widget', 'ERK_Stats_Widget', 'ERK_Hours_Widget',
+		'ERK_Contact_Info_Widget', 'ERK_Contact_Form_Widget', 'ERK_Stats_Widget', 'ERK_Hours_Widget', 'ERK_Slider_Widget',
 	);
 }

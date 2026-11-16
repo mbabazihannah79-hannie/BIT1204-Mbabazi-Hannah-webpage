@@ -26,6 +26,8 @@ $filters = array( 'all' => 'All', 'motel' => 'The Motel', 'rooms' => 'Rooms', 'd
 
 <section class="section">
 	<div class="container">
+		<?php elroi_render_slider( elroi_slider_slides( 'gallery', 10 ), array( 'height' => 600, 'effect' => 'fade' ) ); ?>
+		<div style="height:40px"></div>
 		<div class="filters" role="tablist">
 			<?php foreach ( $filters as $k => $l ) : ?>
 				<button class="filter <?php echo 'all' === $k ? 'is-active' : ''; ?>" data-filter="<?php echo esc_attr( $k ); ?>"><?php echo esc_html( $l ); ?></button>

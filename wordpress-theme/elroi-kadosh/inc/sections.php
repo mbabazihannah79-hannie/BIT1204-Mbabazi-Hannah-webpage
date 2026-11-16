@@ -357,3 +357,61 @@ function elroi_render_booking( $sidebar = true, $button = 'Send Booking Request'
 		<?php endif; ?>
 	</div>
 <?php }
+
+/**
+ * Photo slider.
+ * $slides: list of [ 'image' => url|key, 'title' => '', 'text' => '', 'btn' => '', 'url' => '' ]
+ * $o: height (px), effect (slide|fade), autoplay (bool), speed (ms), arrows, dots, captions (bool), overlay (0-0.8)
+ */
+function elroi_slider_slides( $source = 'gallery', $limit = 8 ) {
+	$slides = array();
+	if ( 'rooms' === $source ) {
+		foreach ( elroi_rooms() as $slug => $r ) {
+			$slides[] = array(
+				'image' => $r['image'], 'title' => $r['name'],
+				'text'  => elroi_money( $r['price'] ) . ' per night · up to ' . intval( $r['guests'] ) . ' guests',
+				'btn'   => 'Book this room', 'url' => add_query_arg( 'room', $slug, elroi_page_url( 'booking' ) ),
+			);
+		}
+	} else {
+		foreach ( elroi_gallery_items() as $g ) {
+			$slides[] = array( 'image' => $g[0], 'title' => $g[1], 'text' => '', 'btn' => '', 'url' => '' );
+		}
+	}
+	return $limit > 0 ? array_slice( $slides, 0, $limit ) : $slides;
+}
+
+function elroi_render_slider( $slides, $o = array() ) {
+	$o = wp_parse_args( $o, array( 'height' => 560, 'effect' => 'slide', 'autoplay' => true, 'speed' => 4000, 'arrows' => true, 'dots' => true, 'captions' => true, 'overlay' => 0.35 ) );
+	if ( ! $slides ) { return; }
+	printf(
+		'<div class="erk-slider erk-slider--%1$s" data-autoplay="%2$d" data-speed="%3$d" style="--slider-h:%4$dpx;--slider-overlay:%5$s" tabindex="0" aria-roledescription="carousel">',
+		esc_attr( 'fade' === $o['effect'] ? 'fade' : 'slide' ), $o['autoplay'] ? 1 : 0, max( 1500, (int) $o['speed'] ), max( 200, (int) $o['height'] ), esc_attr( (string) min( 0.85, max( 0, (float) $o['overlay'] ) ) )
+	);
+	echo '<div class="erk-slider__track">';
+	foreach ( $slides as $i => $s ) {
+		echo '<div class="erk-slide' . ( 0 === $i ? ' is-active' : '' ) . '" role="group" aria-label="' . esc_attr( ( $i + 1 ) . ' / ' . count( $slides ) ) . '">';
+		elroi_image_tag( $s['image'], $s['title'] ? $s['title'] : 'Photo', 1800, 'erk-slide__img' );
+		if ( $o['captions'] && ( $s['title'] || $s['text'] || $s['btn'] ) ) {
+			echo '<div class="erk-slide__caption">';
+			if ( $s['title'] ) { echo '<h3>' . esc_html( $s['title'] ) . '</h3>'; }
+			if ( $s['text'] ) { echo '<p>' . esc_html( $s['text'] ) . '</p>'; }
+			if ( $s['btn'] && $s['url'] ) { echo '<a class="btn btn--gold btn--small" href="' . esc_url( $s['url'] ) . '">' . esc_html( $s['btn'] ) . '</a>'; }
+			echo '</div>';
+		}
+		echo '</div>';
+	}
+	echo '</div>';
+	if ( $o['arrows'] && count( $slides ) > 1 ) {
+		echo '<button type="button" class="erk-slider__arrow erk-slider__prev" aria-label="Previous photo">&#8249;</button>';
+		echo '<button type="button" class="erk-slider__arrow erk-slider__next" aria-label="Next photo">&#8250;</button>';
+	}
+	if ( $o['dots'] && count( $slides ) > 1 ) {
+		echo '<div class="erk-slider__dots">';
+		foreach ( $slides as $i => $s ) {
+			echo '<button type="button" class="erk-slider__dot' . ( 0 === $i ? ' is-active' : '' ) . '" aria-label="Go to photo ' . intval( $i + 1 ) . '"></button>';
+		}
+		echo '</div>';
+	}
+	echo '</div>';
+}

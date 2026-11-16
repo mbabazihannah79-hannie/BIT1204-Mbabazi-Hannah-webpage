@@ -43,12 +43,17 @@ Home · About Us · Rooms · Amenities · Dining & Bar · Gallery · Explore Kye
 | Menu links | **Appearance → Menus** |
 | Booking requests / contact messages | **Bookings** / **Messages** |
 
+### Photo Slider
+The **ERK Photo Slider** widget is a sliding gallery with captions, arrows, dots, auto-play and swipe on phones.
+In Elementor: drag **ERK Photo Slider** onto a page → choose **My own photos** → click each slide to pick a photo from the Media Library and type a caption.
+It is already on the Home page ("Take a look around") and the Gallery page.
+
 ### Editing with Elementor (click-and-edit on the page)
 1. Install the free **Elementor** plugin (Plugins → Add New → search "Elementor" → Install → Activate).
 2. Open the dashboard once: all 10 pages are built as Elementor designs automatically.
 3. Go to **Motel Content → Elementor Pages** (or Pages → hover a page → **Edit with Elementor**).
 4. Click any heading, paragraph, photo, button or section to change it. Drag new widgets from the left panel.
-   The motel widgets (Room Cards, Booking Form, Restaurant Menu, Gallery, FAQs, Map…) are in the **El Roi Khadoshi Motel** group.
+   The motel widgets (Photo Slider, Room Cards, Booking Form, Restaurant Menu, Gallery, FAQs, Map…) are in the **El Roi Khadoshi Motel** group.
 5. **Reset to original design** on the Elementor Pages screen restores any page.
 
 After hosting the site on a new address, use **Elementor → Tools → Replace URL**.

@@ -220,7 +220,7 @@ function elroi_elementor_layout( $slug ) {
 
 				erk_sec( array( erk_col( 100, array_merge(
 					erk_head( elroi_t( 'home_gallery_eyebrow' ), elroi_t( 'home_gallery_title' ) ),
-					array( erk_erk( 'erk-gallery', array( 'style' => 'mosaic' ) ), erk_spacer( 20 ), erk_button( 'Open full gallery', $url( 'gallery' ), 'outline', 'center' ) )
+					array( erk_erk( 'erk-slider', array( 'source' => 'gallery', 'limit' => 8, 'height' => array( 'unit' => 'px', 'size' => 520 ), 'effect' => 'slide', 'autoplay' => 'yes', 'speed' => 4000, 'arrows' => 'yes', 'dots' => 'yes', 'captions' => 'yes', 'overlay' => array( 'size' => 0.35 ) ) ), erk_spacer( 20 ), erk_button( 'Open full gallery', $url( 'gallery' ), 'outline', 'center' ) )
 				) ) ), erk_tint() ),
 
 				erk_sec( array(
@@ -340,7 +340,11 @@ function elroi_elementor_layout( $slug ) {
 		case 'gallery':
 			return array(
 				erk_banner( 'gallery', 'gallery_hero_title', 'gallery_hero_sub' ),
-				erk_sec( array( erk_col( 100, array( erk_erk( 'erk-gallery', array( 'style' => 'grid', 'filters' => 'yes', 'limit' => 0 ) ) ) ) ) ),
+				erk_sec( array( erk_col( 100, array(
+					erk_erk( 'erk-slider', array( 'source' => 'gallery', 'limit' => 10, 'height' => array( 'unit' => 'px', 'size' => 600 ), 'effect' => 'fade', 'autoplay' => 'yes', 'speed' => 4500, 'arrows' => 'yes', 'dots' => 'yes', 'captions' => 'yes', 'overlay' => array( 'size' => 0.35 ) ) ),
+					erk_spacer( 40 ),
+					erk_erk( 'erk-gallery', array( 'style' => 'grid', 'filters' => 'yes', 'limit' => 0 ) ),
+				) ) ) ),
 			);
 
 		case 'explore':
