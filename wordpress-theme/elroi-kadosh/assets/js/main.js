@@ -145,7 +145,15 @@
 			slides.forEach(function (s, x) { s.classList.toggle('is-active', x === i); });
 			dots.forEach(function (d, x) { d.classList.toggle('is-active', x === i); });
 		}
-		function play() { stop(); if (auto) { timer = setInterval(function () { go(i + 1); }, speed); } }
+		function play() {
+			stop();
+			if (auto) {
+				timer = setInterval(function () {
+					if (!document.documentElement.contains(el)) { stop(); return; } // slider was removed (e.g. edited in Elementor)
+					go(i + 1);
+				}, speed);
+			}
+		}
 		function stop() { if (timer) { clearInterval(timer); timer = null; } }
 		var prev = el.querySelector('.erk-slider__prev'), next = el.querySelector('.erk-slider__next');
 		if (prev) { prev.addEventListener('click', function () { go(i - 1); play(); }); }
@@ -167,8 +175,23 @@
 		});
 		go(0); play();
 	}
-	window.erkInitSliders = function (root) { (root || document).querySelectorAll('.erk-slider').forEach(initSlider); };
-	if (document.readyState !== 'loading') { window.erkInitSliders(); } else { document.addEventListener('DOMContentLoaded', function () { window.erkInitSliders(); }); }
+	window.erkInitSliders = function (root) {
+		root = root || document;
+		if (root.classList && root.classList.contains('erk-slider')) { initSlider(root); }
+		if (root.querySelectorAll) { root.querySelectorAll('.erk-slider').forEach(initSlider); }
+	};
+	function start() {
+		window.erkInitSliders();
+		// Start any slider added later, e.g. when it is dragged in or changed in the Elementor editor.
+		if ('MutationObserver' in window) {
+			new MutationObserver(function (list) {
+				list.forEach(function (m) {
+					m.addedNodes.forEach(function (node) { if (node.nodeType === 1) { window.erkInitSliders(node); } });
+				});
+			}).observe(document.body, { childList: true, subtree: true });
+		}
+	}
+	if (document.readyState !== 'loading') { start(); } else { document.addEventListener('DOMContentLoaded', start); }
 	// Live preview inside the Elementor editor.
 	if (window.jQuery) {
 		window.jQuery(window).on('elementor/frontend/init', function () {
