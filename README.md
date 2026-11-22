@@ -1,61 +1,121 @@
 # BIT1204 – Mbabazi Hannah – Webpages
 
-This repository contains:
+WordPress website for **El Roi Khadoshi Motel**, 20 Market Street (near Centenary Bank Building), Kyenjojo, Uganda.
 
-| Folder | What it is |
-|---|---|
-| `wordpress-theme/elroi-kadosh/` | **WordPress theme for El Roi Khadoshi Motel, Kyenjojo** (Elementor-ready) |
-| `logo/` | Motel logo files (PNG and SVG, green & gold) |
+- **Developer:** Mbabazi Hannah
+- **Platform:** WordPress (CMS) with a custom block child theme and a custom bookings plugin
+- **Local environment:** WampServer (Windows)
+- **Live server:** cPanel hosting
 
-## El Roi Khadoshi Motel – WordPress website
+## Repository layout
 
-A custom WordPress theme built for **El Roi Khadoshi Motel**, 20 Market Street (near Centenary Bank Building), Kyenjojo, Uganda.
+```
+BIT1204-Mbabazi-Hannah-webpage/
+├── elroi-child/                 Child theme of Twenty Twenty-Five
+│   ├── style.css                Theme header + all custom CSS (green & gold, line icons)
+│   ├── theme.json               Colour palette, Playfair Display + Inter (bundled, SIL OFL), sizes, buttons
+│   ├── functions.php            Motel details, photo lookup by file name, WhatsApp button, block styles
+│   ├── inc/blocks.php           Helpers that write the block markup for the page designs
+│   ├── inc/content.php          Starting lists: amenities, places, menu, FAQs, gallery photos
+│   ├── inc/setup.php            Appearance → Motel setup (one-click page build)
+│   ├── parts/, patterns/        Header, footer and a design for every page
+│   └── assets/                  Fonts, logo files, slider.js, gallery.js, site.js, editor.css
+├── elroi-bookings/              Custom plugin: rooms, booking requests, contact messages
+│   ├── elroi-bookings.php       Bootstrap, settings, helpers
+│   ├── includes/class-erb-db.php      All SQL (prepared statements), install and upgrade
+│   ├── includes/class-erb-public.php  Shortcodes, booking and contact form handlers, emails
+│   ├── includes/class-erb-admin.php   Bookings, Rooms & prices, Messages, Settings screens
+│   ├── assets/                  public.css, public.js (price estimate), admin.css, admin.js
+│   └── uninstall.php            Drops the module's tables when the plugin is deleted
+├── logo/                        Motel logo files (PNG and SVG, green & gold)
+└── README.md
+```
 
-### Pages (created automatically when the theme is activated)
+The theme gives the look and the pages; the plugin holds the data. Every page is made of normal
+WordPress blocks (Cover, Group, Columns, Heading, Paragraph, Image, Buttons, List, Table, Details),
+so **anything on a page is edited by clicking it in the block editor**: no page builder needed.
+
+## Pages
+
 Home · About Us · Rooms · Amenities · Dining & Bar · Gallery · Explore Kyenjojo · Book a Room · Contact Us · FAQ
 
-### Features
-- Online **booking form** with live price estimate; bookings are saved in the dashboard (**Bookings** menu) with a status (Pending, Confirmed, Checked in…)
-- **Contact form**; messages are saved under **Messages**
-- **Google Map** of the motel location, click-to-call and **WhatsApp** buttons
-- Gallery with category filters and a pop-up image viewer
-- Room comparison table, restaurant menu, FAQ, local attractions (Kibale National Park, Fort Portal)
-- Contacts editable from **Appearance → Customize → Motel Details** (no code needed)
-- Fully responsive (phone, tablet, desktop)
+## Custom module: El Roi Bookings
 
-### How to install on WampServer
-1. Copy the folder `wordpress-theme/elroi-kadosh` into `C:\wamp64\www\<your-wordpress-folder>\wp-content\themes\`
-2. Log in to WordPress → **Appearance → Themes** → activate **El Roi Khadoshi Motel**
-3. All pages, the menu and the home page are set up automatically
-4. Go to **Appearance → Customize → Motel Details** and enter the real phone, WhatsApp and email
-5. Go to **Settings → Permalinks** and click **Save** once (refreshes the page links)
+Three MySQL tables (prefix `wp_erb_`):
 
-### Editing the website (all from the WordPress dashboard)
+```
+rooms    (id, slug, name, price, max_guests, beds, description, features, photo_ids, photo_keys, sort_order, is_active)
+   1 ──< bookings (id, reference, room_id → rooms.id, room_name, guest_name, phone, email, check_in, check_out,
+                   nights, rooms_qty, guests, total, notes, status, staff_note, created_at)
+messages (id, name, contact, subject, message, is_read, created_at)
+```
+
+- A booking keeps a copy of the room name, so deleting a room never loses past bookings.
+- Booking lists use a `LEFT JOIN` with rooms to show the room's current name.
+- Full CRUD in wp-admin, every query through `$wpdb->prepare()`.
+- Statuses: Pending → Confirmed → Checked in → Completed (or Cancelled).
+- If the site ran the old theme, its rooms (with any prices and photos already changed), bookings and messages are copied into the new tables automatically on activation.
+
+**Booking flow:** guest picks dates (search bar on Home, or the form on Book a Room) → sees a live price
+estimate → sends a request → it is saved as *Pending* with a reference like `ERK-7KQ2MD` → the motel is emailed
+(and the guest, if they gave an email) → staff open it under **Bookings**, call or WhatsApp the guest with one click,
+and change the status.
+
+**Security:** nonces and capability checks on every action, sanitised input and escaped output, a hidden spam trap,
+and a limit of 5 submissions per visitor every 10 minutes.
+
+### Shortcodes (already placed on the pages)
+
+| Shortcode | Where | Shows |
+|---|---|---|
+| `[erk_quick_book]` | Home hero | Check-in / check-out search bar |
+| `[erk_rooms]` | Home | Room cards with prices |
+| `[erk_room_details compare="1"]` | Rooms | Every room with photos, features and the comparison table |
+| `[erk_booking_form]` | Book a Room | Booking form, rates and policies |
+| `[erk_contact_form]` | Contact Us | Contact form |
+
+## Editing the website
+
 | What to change | Where in WordPress |
 |---|---|
-| Rooms, prices, beds, features, room photos | **Motel Content → Rooms** |
-| Restaurant menu and prices | **Motel Content → Restaurant Menu** |
-| Amenities | **Motel Content → Amenities** |
-| Places near Kyenjojo | **Motel Content → Places to Visit** |
-| FAQs | **Motel Content → FAQs** |
-| Headings, paragraphs and photos on every page | **Motel Content → Page Text & Photos** (live preview) |
-| Phone, WhatsApp, email, address, map, check-in times | **Motel Content → Contacts & Details** |
-| Menu links | **Appearance → Menus** |
-| Booking requests / contact messages | **Bookings** / **Messages** |
+| Any heading, paragraph, photo, button, amenity, menu item, FAQ, place or opening hour | **Pages** → open the page → click it and type |
+| Photos | Click a photo → **Replace** → choose from the Media Library |
+| Page banner photo | Click the banner → **Replace** (top toolbar) |
+| Photo sliders (Home "Take a look around", Gallery) | Click a photo in the dashed box to replace it or change its caption; add or delete Image blocks |
+| Gallery photo category | Select the photo → Advanced → Additional CSS class: `erk-cat-motel`, `erk-cat-rooms`, `erk-cat-dining` or `erk-cat-area` |
+| Rooms, prices, beds, features, room photos | **Bookings → Rooms & prices** |
+| Booking requests / contact messages | **Bookings → All bookings** / **Bookings → Messages** |
+| Phone, WhatsApp, email, address, map, check-in times | **Bookings → Settings** (top bar, footer and forms update straight away) |
+| Menu links, top bar, footer | **Appearance → Editor → Patterns → Header / Footer** |
+| Start a page again from the original design | **Appearance → Motel setup** → tick *Reset* → Run setup |
 
-### Photo Slider
-The **ERK Photo Slider** widget is a sliding gallery with captions, arrows, dots, auto-play and swipe on phones.
-In Elementor: drag **ERK Photo Slider** onto a page → choose **My own photos** → click each slide to pick a photo from the Media Library and type a caption.
-It is already on the Home page ("Take a look around") and the Gallery page.
+**Real photos:** upload them to **Media → Add New** with these names and run *Motel setup → Reset* once, and every
+page picks them up (until then, free sample photos are shown):
+`hero` `exterior` `reception` `terrace` `parking` `gym` `room-standard` `room-deluxe` `room-family`
+`room-apartment` `room-extra1` `room-extra2` `bathroom` `workdesk` `restaurant` `dining-room` `breakfast`
+`breakfast2` `coffee` `bar` `wifi` `chimp` `tea` `landscape` (`.jpg`, `.png` or `.webp`).
 
-### Editing with Elementor (click-and-edit on the page)
-1. Install the free **Elementor** plugin (Plugins → Add New → search "Elementor" → Install → Activate).
-2. Open the dashboard once: all 10 pages are built as Elementor designs automatically.
-3. Go to **Motel Content → Elementor Pages** (or Pages → hover a page → **Edit with Elementor**).
-4. Click any heading, paragraph, photo, button or section to change it. Drag new widgets from the left panel.
-   The motel widgets (Photo Slider, Room Cards, Booking Form, Restaurant Menu, Gallery, FAQs, Map…) are in the **El Roi Khadoshi Motel** group.
-5. **Reset to original design** on the Elementor Pages screen restores any page.
+## Install locally (WampServer)
 
-After hosting the site on a new address, use **Elementor → Tools → Replace URL**.
+1. Copy `elroi-child` into `C:\wamp64\www\<site>\wp-content\themes\` and `elroi-bookings` into `...\wp-content\plugins\`.
+2. Make sure **Twenty Twenty-Five** is installed (Appearance → Themes; it comes with WordPress 6.7+).
+3. **Plugins** → activate **El Roi Bookings**. **Appearance → Themes** → activate **El Roi Khadoshi Motel**.
+4. **Appearance → Motel setup → Build the site.**
+5. **Bookings → Settings**: enter the real phone, WhatsApp and email.
+6. Elementor is no longer needed; it can be deactivated and deleted.
 
-Built with: WordPress, Elementor, PHP, HTML5, CSS3, JavaScript.
+## Hosting on cPanel
+
+1. cPanel → **Domains** → create the subdomain (for example `elroi.yourdomain.org`) and wait for its folder.
+2. cPanel → **Softaculous / WordPress Manager** → install WordPress on that subdomain.
+3. cPanel → **SSL/TLS Status** → **Run AutoSSL** so the site opens on `https://`.
+4. In the new WordPress: **Plugins → Add New → Upload** `elroi-bookings.zip` → Activate;
+   **Appearance → Themes → Add New → Upload** `elroi-child.zip` → Activate.
+5. **Appearance → Motel setup → Build the site**, then **Bookings → Settings**.
+6. Settings → General: check the site title and that both addresses start with `https://`.
+7. Make a test booking and a test message, and check that the alert email arrives (if it doesn't, install an SMTP plugin such as WP Mail SMTP with the cPanel email account).
+
+To make the zips: right-click the `elroi-child` folder → *Send to → Compressed (zipped) folder* (same for `elroi-bookings`).
+The zip must contain the folder itself, not just its files.
+
+Built with: WordPress (block theme, theme.json, block patterns), PHP, MySQL, HTML5, CSS3, JavaScript.
