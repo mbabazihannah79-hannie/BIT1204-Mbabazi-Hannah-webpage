@@ -1,0 +1,133 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"color": {
+			"palette": [
+				{ "slug": "base", "name": "White", "color": "#FFFFFF" },
+				{ "slug": "contrast", "name": "Ink", "color": "#1D2320" },
+				{ "slug": "accent-1", "name": "Motel green", "color": "#1F4D3A" },
+				{ "slug": "accent-2", "name": "Cream", "color": "#F7F3EA" },
+				{ "slug": "accent-3", "name": "Deep green", "color": "#143528" },
+				{ "slug": "accent-4", "name": "Muted grey", "color": "#5F6B65" },
+				{ "slug": "accent-5", "name": "Mist", "color": "#EEF3EF" },
+				{ "slug": "accent-6", "name": "Hairline", "color": "#E3DDCF" },
+				{ "slug": "gold", "name": "Gold", "color": "#C9A24A" },
+				{ "slug": "gold-deep", "name": "Antique gold", "color": "#A8842F" }
+			]
+		},
+		"layout": {
+			"contentSize": "820px",
+			"wideSize": "1180px"
+		},
+		"typography": {
+			"fontFamilies": [
+				{
+					"name": "Playfair Display",
+					"slug": "playfair",
+					"fontFamily": "\"Playfair Display\", Georgia, serif",
+					"fontFace": [
+						{
+							"src": [ "file:./assets/fonts/PlayfairDisplay-Variable.woff2" ],
+							"fontWeight": "400 900",
+							"fontStyle": "normal",
+							"fontFamily": "Playfair Display",
+							"fontDisplay": "swap"
+						},
+						{
+							"src": [ "file:./assets/fonts/PlayfairDisplay-Variable-Italic.woff2" ],
+							"fontWeight": "400 900",
+							"fontStyle": "italic",
+							"fontFamily": "Playfair Display",
+							"fontDisplay": "swap"
+						}
+					]
+				},
+				{
+					"name": "Inter",
+					"slug": "inter",
+					"fontFamily": "Inter, system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif",
+					"fontFace": [
+						{
+							"src": [ "file:./assets/fonts/Inter-Variable.woff2" ],
+							"fontWeight": "100 900",
+							"fontStyle": "normal",
+							"fontFamily": "Inter",
+							"fontDisplay": "swap"
+						},
+						{
+							"src": [ "file:./assets/fonts/Inter-Variable-Italic.woff2" ],
+							"fontWeight": "100 900",
+							"fontStyle": "italic",
+							"fontFamily": "Inter",
+							"fontDisplay": "swap"
+						}
+					]
+				}
+			],
+			"fontSizes": [
+				{ "slug": "small", "name": "Small", "size": "0.875rem", "fluid": false },
+				{ "slug": "medium", "name": "Medium", "size": "1rem", "fluid": false },
+				{ "slug": "large", "name": "Large", "size": "1.15rem", "fluid": { "min": "1.05rem", "max": "1.15rem" } },
+				{ "slug": "x-large", "name": "X-Large", "size": "1.6rem", "fluid": { "min": "1.35rem", "max": "1.8rem" } },
+				{ "slug": "xx-large", "name": "XX-Large", "size": "2.4rem", "fluid": { "min": "1.6rem", "max": "2.4rem" } },
+				{ "slug": "display", "name": "Display", "size": "3.8rem", "fluid": { "min": "2.2rem", "max": "3.8rem" } }
+			]
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "var(--wp--preset--color--base)",
+			"text": "var(--wp--preset--color--contrast)"
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--inter)",
+			"fontSize": "var(--wp--preset--font-size--medium)",
+			"lineHeight": "1.65"
+		},
+		"spacing": {
+			"blockGap": "1rem"
+		},
+		"elements": {
+			"link": {
+				"color": { "text": "var(--wp--preset--color--accent-1)" },
+				":hover": { "color": { "text": "var(--wp--preset--color--gold-deep)" } }
+			},
+			"heading": {
+				"color": { "text": "var(--wp--preset--color--accent-3)" },
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--playfair)",
+					"fontWeight": "700",
+					"lineHeight": "1.2",
+					"letterSpacing": "0"
+				}
+			},
+			"h1": { "typography": { "fontSize": "var(--wp--preset--font-size--display)" } },
+			"h2": { "typography": { "fontSize": "var(--wp--preset--font-size--xx-large)" } },
+			"h3": { "typography": { "fontSize": "1.25rem" } },
+			"h4": { "typography": { "fontSize": "1.1rem" } },
+			"button": {
+				"border": { "radius": "999px" },
+				"color": {
+					"background": "var(--wp--preset--color--gold)",
+					"text": "var(--wp--preset--color--accent-3)"
+				},
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--inter)",
+					"fontWeight": "600",
+					"fontSize": "0.95rem"
+				},
+				"spacing": {
+					"padding": { "top": "0.85rem", "bottom": "0.85rem", "left": "1.6rem", "right": "1.6rem" }
+				},
+				":hover": {
+					"color": {
+						"background": "var(--wp--preset--color--gold-deep)",
+						"text": "var(--wp--preset--color--base)"
+					}
+				}
+			}
+		}
+	}
+}
