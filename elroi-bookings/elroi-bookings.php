@@ -3,7 +3,7 @@
  * Plugin Name:       El Roi Bookings
  * Plugin URI:        https://github.com/mbabazihannah79-hannie/BIT1204-Mbabazi-Hannah-webpage
  * Description:       Rooms and booking module for El Roi Khadoshi Motel, Kyenjojo: room types with prices and photos, booking requests with a live price estimate and email alerts, a contact form, and dashboard screens to manage bookings, rooms and messages. Uses its own database tables with prepared statements.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Mbabazi Hannah
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ERB_VERSION', '1.0.0' );
+define( 'ERB_VERSION', '1.0.1' );
 define( 'ERB_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ERB_URL', plugin_dir_url( __FILE__ ) );
 

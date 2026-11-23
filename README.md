@@ -12,8 +12,9 @@ WordPress website for **El Roi Khadoshi Motel**, 20 Market Street (near Centenar
 ```
 BIT1204-Mbabazi-Hannah-webpage/
 ├── elroi-child/                 Child theme of Twenty Twenty-Five
-│   ├── style.css                Theme header + all custom CSS (green & gold, line icons)
-│   ├── theme.json               Colour palette, Playfair Display + Inter (bundled, SIL OFL), sizes, buttons
+│   ├── style.css                Theme header + all custom CSS (uses only the theme.json colours)
+│   ├── theme.json               Cream, blue, white & black palette, Playfair Display + Inter (bundled, SIL OFL), sizes, buttons
+│   ├── styles/green-gold.json   Style variation: the original green & gold look, one click away
 │   ├── functions.php            Motel details, photo lookup by file name, WhatsApp button, block styles
 │   ├── inc/blocks.php           Helpers that write the block markup for the page designs
 │   ├── inc/content.php          Starting lists: amenities, places, menu, FAQs, gallery photos
@@ -87,6 +88,9 @@ and a limit of 5 submissions per visitor every 10 minutes.
 | Booking requests / contact messages | **Bookings → All bookings** / **Bookings → Messages** |
 | Phone, WhatsApp, email, address, map, check-in times | **Bookings → Settings** (top bar, footer and forms update straight away) |
 | Menu links, top bar, footer | **Appearance → Editor → Patterns → Header / Footer** |
+| Colours (whole site at once) | **Appearance → Editor → Styles → Colors**: change Blue, Cream, Black… and every page, button, form and the booking pages follow |
+| Switch back to the original green & gold look | **Appearance → Editor → Styles → Browse styles → Original green & gold** |
+| Fonts and text sizes | **Appearance → Editor → Styles → Typography** |
 | Start a page again from the original design | **Appearance → Motel setup** → tick *Reset* → Run setup |
 
 **Real photos:** upload them to **Media → Add New** with these names and run *Motel setup → Reset* once, and every

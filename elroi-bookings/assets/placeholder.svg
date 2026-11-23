@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#1f4d3a"/>
-      <stop offset="1" stop-color="#143528"/>
+      <stop offset="0" stop-color="#1B2230"/>
+      <stop offset="1" stop-color="#0C0E12"/>
     </linearGradient>
   </defs>
   <rect width="800" height="600" fill="url(#g)"/>
-  <path d="M0 470 Q200 380 400 450 T800 420 V600 H0Z" fill="#2c6a50" opacity=".7"/>
-  <path d="M0 520 Q250 450 500 510 T800 500 V600 H0Z" fill="#c9a24a" opacity=".35"/>
-  <circle cx="400" cy="250" r="64" fill="none" stroke="#c9a24a" stroke-width="4"/>
-  <text x="400" y="268" text-anchor="middle" font-family="Georgia, serif" font-size="52" font-weight="700" fill="#c9a24a">ER</text>
-  <text x="400" y="360" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#f7f3ea">El Roi Khadoshi Motel</text>
+  <path d="M0 470 Q200 380 400 450 T800 420 V600 H0Z" fill="#1E63D6" opacity=".7"/>
+  <path d="M0 520 Q250 450 500 510 T800 500 V600 H0Z" fill="#8DB9FF" opacity=".35"/>
+  <circle cx="400" cy="250" r="64" fill="none" stroke="#8DB9FF" stroke-width="4"/>
+  <text x="400" y="268" text-anchor="middle" font-family="Georgia, serif" font-size="52" font-weight="700" fill="#8DB9FF">ER</text>
+  <text x="400" y="360" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#FAF5EA">El Roi Khadoshi Motel</text>
 </svg>

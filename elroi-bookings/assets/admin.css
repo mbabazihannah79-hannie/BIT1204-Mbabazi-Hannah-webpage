@@ -8,7 +8,7 @@
 .erb-status--cancelled { background: #fcf0f1; color: #b32d2e; }
 .erb-columns { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 20px; align-items: start; max-width: 1100px; }
 .erb-details th { width: 180px; }
-.erb-card { background: #fff; border: 1px solid #dcdcde; border-left: 4px solid #c9a24a; padding: 16px 20px; border-radius: 4px; }
+.erb-card { background: #fff; border: 1px solid #dcdcde; border-left: 4px solid #1e63d6; padding: 16px 20px; border-radius: 4px; }
 .erb-card h2 { margin-top: 0; }
 .erb-actions .button { margin: 0 6px 6px 0; }
 .erb-delete { color: #b32d2e !important; margin-top: 12px; }

@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Original green & gold",
+	"settings": {
+		"color": {
+			"palette": [
+				{ "slug": "base", "name": "White", "color": "#FFFFFF" },
+				{ "slug": "contrast", "name": "Ink", "color": "#1D2320" },
+				{ "slug": "accent-1", "name": "Motel green", "color": "#1F4D3A" },
+				{ "slug": "accent-2", "name": "Cream", "color": "#F7F3EA" },
+				{ "slug": "accent-3", "name": "Deep green", "color": "#143528" },
+				{ "slug": "accent-4", "name": "Muted grey", "color": "#5F6B65" },
+				{ "slug": "accent-5", "name": "Mist", "color": "#EEF3EF" },
+				{ "slug": "accent-6", "name": "Hairline", "color": "#E3DDCF" },
+				{ "slug": "gold", "name": "Gold", "color": "#C9A24A" },
+				{ "slug": "gold-deep", "name": "Antique gold", "color": "#A8842F" },
+				{ "slug": "sky", "name": "Gold (highlights on dark)", "color": "#C9A24A" },
+				{ "slug": "on-gold", "name": "Text on gold", "color": "#143528" }
+			]
+		}
+	},
+	"styles": {
+		"elements": {
+			"link": {
+				"color": { "text": "var(--wp--preset--color--accent-1)" },
+				":hover": { "color": { "text": "var(--wp--preset--color--gold-deep)" } }
+			}
+		}
+	}
+}

@@ -184,11 +184,11 @@ add_action(
 	function () {
 		register_block_pattern_category( 'elroi', array( 'label' => __( 'El Roi Khadoshi Motel pages', 'elroi-child' ) ) );
 
-		register_block_style( 'core/button', array( 'name' => 'green', 'label' => __( 'Green', 'elroi-child' ) ) );
+		register_block_style( 'core/button', array( 'name' => 'green', 'label' => __( 'Black (dark button)', 'elroi-child' ) ) );
 		register_block_style( 'core/button', array( 'name' => 'ghost', 'label' => __( 'White outline (on photos)', 'elroi-child' ) ) );
-		register_block_style( 'core/paragraph', array( 'name' => 'eyebrow', 'label' => __( 'Small gold label', 'elroi-child' ) ) );
-		register_block_style( 'core/paragraph', array( 'name' => 'chip', 'label' => __( 'Gold tag', 'elroi-child' ) ) );
-		register_block_style( 'core/list', array( 'name' => 'ticks', 'label' => __( 'Gold ticks', 'elroi-child' ) ) );
+		register_block_style( 'core/paragraph', array( 'name' => 'eyebrow', 'label' => __( 'Small blue label', 'elroi-child' ) ) );
+		register_block_style( 'core/paragraph', array( 'name' => 'chip', 'label' => __( 'Blue tag', 'elroi-child' ) ) );
+		register_block_style( 'core/list', array( 'name' => 'ticks', 'label' => __( 'Blue ticks', 'elroi-child' ) ) );
 		register_block_style( 'core/image', array( 'name' => 'erk-rounded', 'label' => __( 'Rounded photo', 'elroi-child' ) ) );
 	}
 );
